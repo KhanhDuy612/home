@@ -1,0 +1,35 @@
+services:
+  directus:
+    container_name: directus-art-gallery
+    image: directus/directus:latest
+    restart: always
+    ports:
+      - 8055:8055
+    environment:
+      KEY: 'this-is-asdasdassdkjanb'
+      SECRET: 'ioaudakhbaklajdvboiauqbkjad'
+
+      CORS_ENABLED: 'true'
+      CORS_ORIGIN: '*'
+
+      DB_CLIENT: 'pg'
+      DB_HOST: '10.208.50.7'
+      DB_PORT: '5433'
+      DB_DATABASE: 'directus'
+      DB_USER: 'admin'
+      DB_PASSWORD: 'admin123@'
+
+      STORAGE_LOCATIONS: 's3'
+      STORAGE_S3_DRIVER: 's3'
+      STORAGE_S3_KEY: '3kLBq2gEmpHKrdGRcy5f'
+      STORAGE_S3_SECRET: '0QDclmNfd3U6XGVLBfJSBFMUVPDDkEELbU36bqhP'
+      STORAGE_S3_BUCKET: 'directus-dev'
+      STORAGE_S3_REGION: 'us-east-1'
+      STORAGE_S3_ENDPOINT: 'http://10.208.50.7:9000'
+      STORAGE_S3_FORCE_PATH_STYLE: 'true'
+
+      ADMIN_EMAIL: 'dathx@hcm57.com'
+      ADMIN_PASSWORD: 'admin@@'
+    volumes:
+      - ./database:/directus/database
+      - ./uploads:/directus/uploads

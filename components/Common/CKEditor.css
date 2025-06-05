@@ -1,0 +1,232 @@
+.custom-ckEditor {
+  /* Typography */
+  font-family: inherit;
+  line-height: 1.6;
+  color: inherit;
+
+  /* Block spacing */
+  p {
+    margin-bottom: 1rem;
+  }
+
+  /* Headings */
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    margin-top: 2rem;
+    margin-bottom: 1rem;
+    font-weight: 500;
+    line-height: 1.2;
+  }
+
+  h1 {
+    @apply text-2xl font-medium md:text-3xl;
+    scroll-margin-top: 150px;
+  }
+
+  h2 {
+    @apply text-xl font-medium md:text-2xl;
+    scroll-margin-top: 150px;
+  }
+
+  h3 {
+    @apply text-lg font-medium md:text-xl;
+    scroll-margin-top: 150px;
+  }
+
+  h4 {
+    @apply text-base font-medium md:text-lg;
+    scroll-margin-top: 150px;
+  }
+
+  h5 {
+    @apply text-sm font-medium md:text-base;
+  }
+
+  h6 {
+    @apply text-xs font-medium md:text-sm;
+  }
+
+  /* Lists */
+  ul {
+    list-style: disc !important;
+    margin-left: 20px !important;
+    margin-bottom: 1rem;
+  }
+
+  ol {
+    list-style: decimal !important;
+    margin-left: 20px !important;
+    margin-bottom: 1rem;
+  }
+
+  li {
+    margin-bottom: 0.5rem;
+  }
+
+  li > ul,
+  li > ol {
+    margin-top: 0.5rem;
+    margin-bottom: 0;
+  }
+
+  /* Nested lists */
+  ul ul {
+    list-style: circle !important;
+  }
+
+  ul ul ul {
+    list-style: square !important;
+  }
+
+  ol ol {
+    list-style: lower-alpha !important;
+  }
+
+  ol ol ol {
+    list-style: lower-roman !important;
+  }
+
+  /* Links */
+  a {
+    color: #0066cc;
+    text-decoration: underline;
+    transition: color 0.2s;
+  }
+
+  a:hover {
+    color: #004499;
+  }
+
+  /* Images and figures */
+  figure {
+    @apply mx-auto my-6 text-center;
+  }
+
+  img {
+    @apply max-w-full mx-auto my-4;
+    height: auto;
+    border-radius: 4px;
+  }
+
+  figcaption {
+    @apply mt-2 text-sm text-gray-600;
+  }
+
+  /* Blockquotes */
+  blockquote {
+    border-left: 4px solid #e2e8f0;
+    padding-left: 1rem;
+    margin-left: 0;
+    margin-right: 0;
+    margin-bottom: 1rem;
+    font-style: italic;
+    color: #4a5568;
+  }
+
+  /* Code blocks */
+  pre {
+    background-color: #f7fafc;
+    border-radius: 4px;
+    padding: 1rem;
+    overflow-x: auto;
+    margin-bottom: 1rem;
+    font-family: monospace;
+  }
+
+  code {
+    font-family: monospace;
+    background-color: #f7fafc;
+    padding: 0.2rem 0.4rem;
+    border-radius: 3px;
+    font-size: 0.9em;
+  }
+
+  /* Tables */
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 1rem;
+  }
+
+  th,
+  td {
+    border: 1px solid #e2e8f0;
+    padding: 0.75rem;
+    text-align: left;
+  }
+
+  th {
+    background-color: #f7fafc;
+    font-weight: 600;
+  }
+
+  /* tr:nth-child(even) {
+        background-color: #f7fafc;
+    } */
+
+  /* Horizontal rule */
+  hr {
+    border: 0;
+    height: 1px;
+    background-color: #e2e8f0;
+    margin: 2rem 0;
+  }
+
+  /* Definition lists */
+  dl {
+    margin-bottom: 1rem;
+  }
+
+  dt {
+    font-weight: 600;
+  }
+
+  dd {
+    margin-left: 1.5rem;
+    margin-bottom: 0.5rem;
+  }
+
+  /* Abbreviations */
+  abbr[title] {
+    text-decoration: underline dotted;
+    cursor: help;
+  }
+
+  /* Media embeds (like videos) */
+  .media-embed {
+    position: relative;
+    width: 100%;
+    padding-bottom: 56.25%; /* 16:9 aspect ratio */
+    height: 0;
+    margin-bottom: 1rem;
+  }
+
+  .media-embed iframe {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+  }
+
+  /* Responsive adjustments */
+  @media (max-width: 640px) {
+    h1,
+    h2,
+    h3,
+    h4,
+    h5,
+    h6 {
+      margin-top: 1.5rem;
+    }
+
+    blockquote {
+      margin-left: 0;
+      margin-right: 0;
+    }
+  }
+}
