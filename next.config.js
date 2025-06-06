@@ -6,7 +6,7 @@ const nextConfig = {
     remotePatterns: [
       {
         protocol: 'https',
-        hostname: 'test-cms-art-gallery.hcm57.vn',
+        hostname: 'https://test-homestay-cms.hcm57.vn/',
         pathname: '/**',
       },
       {

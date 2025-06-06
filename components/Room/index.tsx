@@ -14,7 +14,7 @@ export default function FeaturedProperties() {
     // filter: { id: { _eq: 2 } }
     const { data } = useApiQuery<any>('/items/rooms',{ populate: '*' });
 
-    console.log('Data from API:', data);
+    console.log('Data from API sadsad:', data);
     
   const [open, setOpen] = useState(false);
 //   const { idRoom, setIdRoom } = useOrderContext();

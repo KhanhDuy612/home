@@ -21,7 +21,8 @@ const testimonials = [
   },
 ];
 
-export default function Testimonial() {
+export default function Testimonial(data: any) {
+  console.log('Testimonial data:', data);
   return (
     <section className="px-4 py-16" style={{ backgroundColor: '#f8f9fa' }}>
       <div className="container mx-auto">
