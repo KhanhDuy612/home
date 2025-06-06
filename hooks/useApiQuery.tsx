@@ -12,7 +12,12 @@ export default function useApiQuery<T>(path: string, paramsObject?: any) {
   const useRewardQuery = useQuery({
     queryKey: key,
     queryFn: async () => {
-      const response = await instance.get(path, { params: paramsObject });
+      const response = await instance.get(path, {
+        params: {
+          fields: '*.*',
+          ...paramsObject,
+        },
+      });
       return response.data as ApiResponse<T>;
     },
     refetchOnMount: false,
@@ -20,3 +25,4 @@ export default function useApiQuery<T>(path: string, paramsObject?: any) {
 
   return useRewardQuery;
 }
+

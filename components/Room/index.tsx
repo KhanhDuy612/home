@@ -5,16 +5,22 @@ import Image from 'next/image';
 import Link from 'next/link';
 import BookingFormPopup from '../FormBooking';
 import { useState } from 'react';
+import useApiQuery from '@/hooks/useApiQuery';
 
 const badgeColor = (type: string) =>
   type === 'For sale' ? 'bg-green-400 text-white' : 'bg-purple-500 text-white';
 
 export default function FeaturedProperties() {
+    // filter: { id: { _eq: 2 } }
+    const { data } = useApiQuery<any>('/items/rooms',{ populate: '*' });
+
+    console.log('Data from API:', data);
+    
   const [open, setOpen] = useState(false);
-  const { idRoom, setIdRoom } = useOrderContext();
+//   const { idRoom, setIdRoom } = useOrderContext();
   const handleOrderClick = (roomId: string) => {
     setOpen(true);
-    setIdRoom(roomId);
+    // setIdRoom(roomId);
     console.log(`Order clicked for room ID: ${roomId}`);
   }
 
@@ -103,7 +109,7 @@ export default function FeaturedProperties() {
           ))}
         </div>
       </div>
-      <BookingFormPopup idRoom={idRoom} open={open} onClose={() => setOpen(false)} />
+      {/* <BookingFormPopup idRoom={idRoom} open={open} onClose={() => setOpen(false)} /> */}
     </section>
   );
 }
