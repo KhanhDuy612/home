@@ -23,8 +23,8 @@ const testimonials = [
 
 export default function Testimonial() {
   return (
-    <section className="px-4 py-16 bg-white">
-      <div className="max-w-4xl mx-auto">
+    <section className="px-4 py-16" style={{ backgroundColor: '#f8f9fa' }}>
+      <div className="container mx-auto">
         <Swiper
           modules={[Autoplay, Pagination]}
           autoplay={{ delay: 5000, disableOnInteraction: false }}
