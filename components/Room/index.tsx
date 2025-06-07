@@ -12,15 +12,20 @@ const badgeColor = (type: string) =>
 const DIRECTUS_URL = process.env.NEXT_PUBLIC_DIRECTUS_ASSETS_URL || 'https://test-homestay-cms.hcm57.vn/assets';
 
 export default function FeaturedProperties({ data }: { data?: any }) {
-  console.log('Data from API sadsad2222:', data);
+   const { data: apiData, isLoading } = useApiQuery<any[]>('/items/rooms');
 
-  const mockRooms = data;
+  // Nếu có data truyền vào thì ưu tiên dùng, không thì lấy data từ API
+  const mockRooms = data || apiData?.data;
+
+  console.log("Mock Rooms Data:", mockRooms);
+  
   const [open, setOpen] = useState(false);
+  const [selectedRoomId, setSelectedRoomId] = useState<string | null>(null);
+
   //   const { idRoom, setIdRoom } = useOrderContext();
   const handleOrderClick = (roomId: string) => {
+    setSelectedRoomId(roomId);
     setOpen(true);
-    // setIdRoom(roomId);
-    console.log(`Order clicked for room ID: ${roomId}`);
   };
   if (!mockRooms || mockRooms.length === 0) {
     return (
@@ -41,7 +46,7 @@ export default function FeaturedProperties({ data }: { data?: any }) {
               <Link href={`/rooms/${room.type}/${room.slug}`} className="flex flex-col ">
                 <div className="relative mb-3">
                   <Image
-                    src={`${DIRECTUS_URL}/${room.image}`}
+                    src={`${DIRECTUS_URL}/${room.image?.id}`}
                     alt={room.title}
                     width={400}
                     height={160}
@@ -49,7 +54,7 @@ export default function FeaturedProperties({ data }: { data?: any }) {
                     priority
                   />
                   {/* Nếu muốn hiện badge type: */}
-                  {/* {room.order && (
+                  {room.order && (
                     <span
                       className={`absolute top-3 left-3 px-4 py-1 rounded-lg text-sm font-semibold ${badgeColor(
                         room.order
@@ -57,7 +62,7 @@ export default function FeaturedProperties({ data }: { data?: any }) {
                     >
                       {room.order}
                     </span>
-                  )} */}
+                  )}
                 </div>
                 <div className="p-4">
                   <h2 className="text-lg font-semibold">{room.title}</h2>
@@ -115,7 +120,11 @@ export default function FeaturedProperties({ data }: { data?: any }) {
           ))}
         </div>
       </div>
-      {/* <BookingFormPopup idRoom={idRoom} open={open} onClose={() => setOpen(false)} /> */}
+      <BookingFormPopup
+        open={open}
+        onClose={() => setOpen(false)}
+        roomId={selectedRoomId}
+      />
     </section>
   );
 }

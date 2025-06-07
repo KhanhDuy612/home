@@ -12,7 +12,6 @@ import useBreakpoint, { Breakpoint } from '@/hooks/useBreakPoint';
 import Image from 'next/image';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { Search, ShoppingCart } from 'lucide-react';
 import DesktopNavigation from './DesktopNavigation';
 export default function Header() {
   useResetSubHeader();
@@ -112,7 +111,6 @@ export default function Header() {
             className="flex justify-between items-center py-[28px]"
             style={{ color: whiteHeader ? '#fff' : '#010101' }}
           >
-            {/* Gallery name */}
             <h1 className="text-xl tracking-wider mt-[4px] text-center pr-2 md:pr-0">
               <Link href="/" className="text-[19px] tracking-[8px] font-medium uppercase">
                 <div className="flex items-center justify-center space-x-2">

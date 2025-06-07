@@ -1,13 +1,16 @@
 'use client';
 
 import { useState } from 'react';
+import { useRouter } from 'next/navigation';
+import { apiPatch, apiPost } from '@/hooks/apiPost';
 
 interface BookingFormPopupProps {
   open: boolean;
   onClose: () => void;
+  roomId: string | null;
 }
 
-export default function BookingFormPopup({ open, onClose }: BookingFormPopupProps) {
+export default function BookingFormPopup({ open, onClose, roomId }: BookingFormPopupProps) {
   const [form, setForm] = useState({
     name: '',
     email: '',
@@ -16,6 +19,8 @@ export default function BookingFormPopup({ open, onClose }: BookingFormPopupProp
     checkout: '',
     guest: 1,
   });
+  const [loading, setLoading] = useState(false);
+  const router = useRouter();
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
     const { name, value } = e.target;
@@ -25,11 +30,35 @@ export default function BookingFormPopup({ open, onClose }: BookingFormPopupProp
     }));
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    // TODO: call API đặt phòng ở đây
-    alert('Đặt phòng thành công!\n' + JSON.stringify(form, null, 2));
-    onClose();
+    if (!roomId) return;
+    try {
+      setLoading(true);
+
+      // 1. Tạo booking mới trên Directus
+      await apiPost(
+        `items/bookings`,
+        {
+          ...form,
+          room: roomId,
+          status: 'pending',
+        }
+      );
+
+      // 2. Update trạng thái phòng sang "Đang đặt"
+      await apiPatch(
+        `items/rooms/${roomId}`,
+        { order: 'Đang đặt' }
+      );
+
+      setLoading(false);
+      onClose();
+      router.push('/booking');
+    } catch (error) {
+      setLoading(false);
+      alert('Đã có lỗi xảy ra, vui lòng thử lại!');
+    }
   };
 
   if (!open) return null;
@@ -105,8 +134,9 @@ export default function BookingFormPopup({ open, onClose }: BookingFormPopupProp
           <button
             type="submit"
             className="w-full py-2 font-semibold text-white bg-blue-500 rounded hover:bg-blue-600"
+            disabled={loading}
           >
-            Gửi đặt phòng
+            {loading ? 'Đang gửi...' : 'Gửi đặt phòng'}
           </button>
         </form>
       </div>

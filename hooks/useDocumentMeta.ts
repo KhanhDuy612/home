@@ -11,8 +11,8 @@ interface MetaTagsProps {
 }
 
 const DEFAULT_META = {
-  title: 'GALLERY ALEXANDRIA',
-  description: 'Gallery chuyên các tác phẩm nghệ thuật đương đại.',
+  title: 'Homestay',
+  description: 'Homestay chuyên các tác phẩm nghệ thuật đương đại.',
   imageUrl: 'https://test-cms-art-gallery.hcm57.vn/assets/811ee1c3-e3f4-468c-8876-b92f39c938d2',
   type: 'website',
 } as const;

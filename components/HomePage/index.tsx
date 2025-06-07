@@ -1,34 +1,19 @@
-import { getDataForSection, getPageSections } from "@/lib/api";
-import FeaturedProperties from "../Room";
-import Testimonial from "../Testimonial";
-import ContactForm from "../ContactForm";
+'use client';
 
-// EjpMFZNaGqrT8sGjVJgPIw9yItzYI-Z1
-export default async function HomePage() {
-    const sections = await getPageSections();
+import { usePageSections } from '@/hooks/usePageSections';
+import SectionRenderer from '../SectionRender';
 
-    const sectionComponents = await Promise.all(
-        sections.map(async (section) => {
-            const data = await getDataForSection(section.section_type);
+export default function HomePage() {
+  const { data: sections, isLoading } = usePageSections();
 
-            if (!data) {
-                console.error(`No data found for section type: ${section.section_type}`);
-                return null;
-            }
-            switch (section.section_type) {
-                case 'featured':
-                    return <FeaturedProperties key={section.id} data={data} />;
-                case 'testimonial':
-            console.log('Section typeđâs:', section);
+  if (isLoading) return <div>Loading sections...</div>;
+  if (!sections?.data) return <div>No sections found.</div>;
 
-                    return <Testimonial key={section.id} data={data} />;
-                case 'contact':
-                    return <ContactForm key={section.id} data={section.data} />;
-                default:
-                    return null;
-            }
-        })
-    );
-
-    return <>{sectionComponents}</>;
+  return (
+    <>
+      {sections.data.map((section: any) => (
+        <SectionRenderer key={section.id} section={section} />
+      ))}
+    </>
+  );
 }

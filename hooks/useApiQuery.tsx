@@ -8,9 +8,15 @@ export type ApiResponse<T> = {
   data: T;
 };
 
-export default function useApiQuery<T>(path: string, paramsObject?: any) {
-  const key = ['directus', path, paramsObject];
+export default function useApiQuery<T>(
+  path: string,
+  paramsObject?: Record<string, any>,
+  options?: { refetchOnMount?: boolean }
+) {
+  // Deep memo hóa paramsObject, tránh refetch không cần thiết
+  const key = ['directus', path, JSON.stringify(paramsObject ?? {})];
 
+  // Cho phép custom fields qua paramsObject nếu muốn  
   const query = qs.stringify(
     {
       fields: '*.*',
@@ -21,15 +27,19 @@ export default function useApiQuery<T>(path: string, paramsObject?: any) {
     }
   );
 
-  const useRewardQuery = useQuery({
+  const queryResult = useQuery<ApiResponse<T>>({
     queryKey: key,
     queryFn: async () => {
-      console.log(`[useApiQuery] GET ${path}?${query}`); // ✅ debug URL
-      const response = await instance.get(`${path}?${query}`);
+      // Đảm bảo path không trùng // hoặc thiếu /
+      const url = path.startsWith('/') ? path : `/${path}`;
+      if (process.env.NODE_ENV !== 'production') {
+        console.log(`[useApiQuery] GET ${url}?${query}`);
+      }
+      const response = await instance.get(`${url}?${query}`);
       return response.data as ApiResponse<T>;
     },
-    refetchOnMount: false,
+    refetchOnMount: options?.refetchOnMount ?? false,
   });
 
-  return useRewardQuery;
+  return queryResult;
 }

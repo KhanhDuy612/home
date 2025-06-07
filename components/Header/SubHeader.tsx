@@ -21,7 +21,6 @@ export default function SubHeader({ subHeader, visible }: SubHeaderProps) {
         >
           {/* Main header content */}
           <div className="flex justify-between items-center text-[#010101] py-[28px]">
-            {/* Gallery name */}
             <h1 className="text-xl tracking-wider mt-[4px] text-center pr-2 md:pr-0">
               <a href="/" className="text-[19px] tracking-[8px] font-medium uppercase">
                 {subHeader.name}
