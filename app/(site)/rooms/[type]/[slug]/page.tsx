@@ -1,33 +1,41 @@
+'use client';
+
+import { useParams } from 'next/navigation';
+import useApiQuery from '@/hooks/useApiQuery';
 import RoomCardDetail from '@/components/Room/RoomCardDetail';
-import { mockRooms } from '@/data/mockRooms';
 
-interface Props {
-  params: {
-    type: string;
-    slug: string;
-  };
-}
+export default function RoomDetailPage() {
+  const params = useParams();
+  console.log('RoomDetailPage params:', params);
+  
 
-async function fetchRoom(type: string, slug: string) {
-  return mockRooms.find((r) => r.type === type && r.slug === slug);
-}
+  const { data: roomData } = useApiQuery<any>(
+    `/items/rooms`,
+    {
+      populate: '*',
+      filter: {
+        type: {
+          _eq: params.type,
+        },
+        slug: {
+          _eq: params.slug,
+        },
+      },
+    }
+  )
 
-export default async function RoomDetailPage({ params }: Props) {
-  const { type, slug } = await params;
+  const room = roomData?.data;
+  console.log('Room data1111:', room);
 
-  const room = await fetchRoom(type, slug);
-
+  
+  
   if (!room) {
-    return (
-      <div className="mt-20 text-xl text-center text-red-500">
-        Room not found.
-      </div>
-    );
+    return <div className="p-4">Room not found</div>;
   }
 
   return (
-    <main className="p-4">
+    <div className="p-4">
       <RoomCardDetail room={room} />
-    </main>
+    </div>
   );
 }

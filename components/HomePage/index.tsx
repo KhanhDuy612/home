@@ -11,13 +11,13 @@ export default async function HomePage() {
         sections.map(async (section) => {
             const data = await getDataForSection(section.section_type);
 
-            console.log('Section data:', data);
-            console.log('Section type:', section);
-
-
+            if (!data) {
+                console.error(`No data found for section type: ${section.section_type}`);
+                return null;
+            }
             switch (section.section_type) {
                 case 'featured':
-                    return <FeaturedProperties key={section.id} data={section.data} />;
+                    return <FeaturedProperties key={section.id} data={data} />;
                 case 'testimonial':
             console.log('Section typeđâs:', section);
 

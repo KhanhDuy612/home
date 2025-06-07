@@ -28,7 +28,7 @@ const DesktopNavigation: React.FC<DesktopNavigationProps> = ({
   const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
 
   return (
-    <nav className="">
+    <nav className="hidden lg:block">
       <ul className="flex uppercase text-[16px] font-medium tracking-[1.74px]">
         {headerData?.slice(0,3)?.map((item, index) => {
           const isActiveLink = isActive(item.href);

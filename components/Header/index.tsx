@@ -13,9 +13,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { Search, ShoppingCart } from 'lucide-react';
-import SubMenuPrice from './SubMenuPrice';
 import DesktopNavigation from './DesktopNavigation';
-import TabletNavigation from './TabletNavigation';
 export default function Header() {
   useResetSubHeader();
   const pathname = usePathname();
@@ -53,6 +51,7 @@ export default function Header() {
 
   const { setShowMenuPrice, setPositionPriceMenu } = useHeaderState();
   const { data } = useApiQuery<any>('/items/header');
+  // console.log('Header data from API:', data);
 
   const headerData = data?.data?.pages;
   const header = data?.data;
@@ -61,9 +60,7 @@ export default function Header() {
   const headerActive = header?.active;
   const headerHover = header?.hover;
 
-  const DIRECTUS_URL =
-    process.env.NEXT_PUBLIC_DIRECTUS_ASSETS_URL || 'https://test-cms-art-gallery.hcm57.vn/assets';
-
+  const DIRECTUS_URL = process.env.NEXT_PUBLIC_DIRECTUS_ASSETS_URL;
   useEffect(() => {
     setPrevScrollPos(window.scrollY);
 
@@ -110,14 +107,6 @@ export default function Header() {
           suppressHydrationWarning
           className={`relative transition-all duration-500 ease-in-out transform ${visibleMainHeader ? 'translate-y-0' : '-translate-y-full'}`}
         >
-          {/* Language toggle */}
-          {/* <div className="absolute top-0 right-0 hidden lg:block">
-            <div className="flex gap-2 text-[12px] py-[7px] text-[#010101]">
-              <button className="font-medium active-link">EN</button>
-              <button className="font-medium active-link">VN</button>
-            </div>
-          </div> */}
-
           {/* Main header content */}
           <div
             className="flex justify-between items-center py-[28px]"
@@ -128,9 +117,9 @@ export default function Header() {
               <Link href="/" className="text-[19px] tracking-[8px] font-medium uppercase">
                 <div className="flex items-center justify-center space-x-2">
                   <div className="flex w-15 h-15">
-                    {!!header?.logo && (
+                    {!!header?.logo?.id && (
                       <Image
-                        src={`${DIRECTUS_URL}/${header?.logo}`}
+                        src={`${DIRECTUS_URL}/${header?.logo?.id}`}
                         alt={header?.title}
                         width={60}
                         height={60}
@@ -161,21 +150,7 @@ export default function Header() {
               totalQuantity={totalQuantity}
             />
 
-            <div className="text-[19px] tracking-[8px] font-medium uppercase flex space-x-2">
-              <div className="relative flex">
-                <Link href="/cart" className="flex items-center gap-1">
-                  {whiteHeader ? (
-                    <ShoppingCart color="#ffffff" />
-                  ) : (
-                    <ShoppingCart color="#010101" />
-                  )}
-                  {totalQuantity > 0 && (
-                    <span className="absolute -top-2 -right-3 bg-red-500 text-white text-[11px] px-[6px] py-[2px] rounded-full">
-                      {totalQuantity}
-                    </span>
-                  )}
-                </Link>
-              </div>
+            <div className="lg:block hidden text-[19px] tracking-[8px] font-medium uppercase space-x-2">
               <p>(257) 388-6895</p>
             </div>
           </div>
@@ -257,23 +232,14 @@ export default function Header() {
                   transitionDelay: mobileMenuOpen ? `${10 * 100}ms` : '0ms',
                 }}
               >
-                <Link
-                  href="/cart"
-                  className={`inline-flex justify-center items-center ${
-                    isActive('/cart')
-                      ? 'text-white tracking-[2.61px]'
-                      : 'text-[#fff9] tracking-[2.61px]'
-                  }`}
-                  onClick={() => setMobileMenuOpen(false)}
-                >
-                  <ShoppingCart color="#fff9" /> <span className="ml-2">({totalQuantity})</span>
-                </Link>
+                <div className=" text-[19px] tracking-[8px] font-medium uppercase space-x-2">
+                  <p>(257) 388-6895</p>
+                </div>
               </li>
             </ul>
           </nav>
         </div>
       </div>
-      <SubMenuPrice />
     </>
   );
 }

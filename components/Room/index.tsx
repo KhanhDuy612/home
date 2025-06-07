@@ -1,6 +1,5 @@
 'use client';
 import { useOrderContext } from '@/app/context/OrderContext';
-import { mockRooms } from '@/data/mockRooms';
 import Image from 'next/image';
 import Link from 'next/link';
 import BookingFormPopup from '../FormBooking';
@@ -10,18 +9,27 @@ import useApiQuery from '@/hooks/useApiQuery';
 const badgeColor = (type: string) =>
   type === 'For sale' ? 'bg-green-400 text-white' : 'bg-purple-500 text-white';
 
-export default function FeaturedProperties() {
-    // filter: { id: { _eq: 2 } }
-    const { data } = useApiQuery<any>('/items/rooms',{ populate: '*' });
+const DIRECTUS_URL = process.env.NEXT_PUBLIC_DIRECTUS_ASSETS_URL || 'https://test-homestay-cms.hcm57.vn/assets';
 
-    console.log('Data from API sadsad:', data);
-    
+export default function FeaturedProperties({ data }: { data?: any }) {
+  console.log('Data from API sadsad2222:', data);
+
+  const mockRooms = data;
   const [open, setOpen] = useState(false);
-//   const { idRoom, setIdRoom } = useOrderContext();
+  //   const { idRoom, setIdRoom } = useOrderContext();
   const handleOrderClick = (roomId: string) => {
     setOpen(true);
     // setIdRoom(roomId);
     console.log(`Order clicked for room ID: ${roomId}`);
+  };
+  if (!mockRooms || mockRooms.length === 0) {
+    return (
+      <section className="py-10 bg-gray-50">
+        <div className="container mx-auto">
+          <p className="text-center text-gray-500">No featured properties available.</p>
+        </div>
+      </section>
+    );
   }
 
   return (
@@ -33,7 +41,7 @@ export default function FeaturedProperties() {
               <Link href={`/rooms/${room.type}/${room.slug}`} className="flex flex-col ">
                 <div className="relative mb-3">
                   <Image
-                    src={room.imageUrl}
+                    src={`${DIRECTUS_URL}/${room.image}`}
                     alt={room.title}
                     width={400}
                     height={160}
@@ -41,7 +49,7 @@ export default function FeaturedProperties() {
                     priority
                   />
                   {/* Nếu muốn hiện badge type: */}
-                  {room.order && (
+                  {/* {room.order && (
                     <span
                       className={`absolute top-3 left-3 px-4 py-1 rounded-lg text-sm font-semibold ${badgeColor(
                         room.order
@@ -49,14 +57,12 @@ export default function FeaturedProperties() {
                     >
                       {room.order}
                     </span>
-                  )}
+                  )} */}
                 </div>
                 <div className="p-4">
                   <h2 className="text-lg font-semibold">{room.title}</h2>
                   <p className="mb-2 text-sm text-gray-400">{room.address}</p>
-                  <div className="mb-2 text-xl font-bold">
-                    ${room.propertyDetails.price?.toLocaleString()}
-                  </div>
+                  <div className="mb-2 text-xl font-bold">${room.price?.toLocaleString()}</div>
                   <div className="flex flex-wrap text-sm text-gray-600 gap-x-6 gap-y-2">
                     <div className="flex items-center gap-1">
                       <Image
@@ -65,7 +71,7 @@ export default function FeaturedProperties() {
                         width={20}
                         height={20}
                       />
-                      <span>{room.propertyDetails.bedrooms} Bedrooms</span>
+                      <span>{room.bedrooms} Bedrooms</span>
                     </div>
                     <div className="flex items-center gap-1">
                       <Image
@@ -74,7 +80,7 @@ export default function FeaturedProperties() {
                         width={20}
                         height={20}
                       />
-                      <span>{room.propertyDetails.bathrooms} Bathrooms</span>
+                      <span>{room.bathrooms} Bathrooms</span>
                     </div>
                     <div className="flex items-center gap-1">
                       <Image
@@ -83,7 +89,7 @@ export default function FeaturedProperties() {
                         width={20}
                         height={20}
                       />
-                      <span>{room.propertyDetails.totalArea} Total area</span>
+                      <span>{room.totalArea} Total area</span>
                     </div>
                     <div className="flex items-center gap-1">
                       <Image
@@ -92,7 +98,7 @@ export default function FeaturedProperties() {
                         width={20}
                         height={20}
                       />
-                      <span>{room.propertyDetails.garages} Garages</span>
+                      <span>{room.garages} Garages</span>
                     </div>
                   </div>
                 </div>

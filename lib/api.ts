@@ -16,7 +16,7 @@ export async function getPageSections() {
 
 export async function getDataForSection(type: string) {
   const map: Record<string, string> = {
-    featured: 'banner',
+    featured: 'rooms',
     testimonial: 'global',
     contact: 'contact',
   };

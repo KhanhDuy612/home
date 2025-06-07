@@ -27,12 +27,24 @@ export interface NearbyLocation {
     id: string;
     title: string;
     address: string;
-    imageUrl: string;
+    image: {
+      id: string;
+    };
     description: string;
     slug: string;
     type: string;
     order?: string;
-    propertyDetails: PropertyDetails;
-    nearby: NearbyCategory[];
+    totalArea: string;
+    bedrooms: number;
+    bathrooms: number;
+    floor: string;
+    constructionYear: number;
+    elevator: number;
+    parking: boolean;
+    wifi: boolean;
+    cableTV: boolean;
+    garages?: number;
+    price?: number;
+    total_area: string;
   }
   

@@ -16,7 +16,7 @@ export default function ClientLayout({ children }: { children: React.ReactNode }
     <QueryClientProvider client={queryClient}>
       <OrderProvider>
         <BookingPopupProvider>
-          {/* <Header /> */}
+          <Header />
           <main className="flex-grow min-h-[calc(100vh_-_280px)]">
             <div className="px-4 md:px-6">{children}</div>
           </main>
