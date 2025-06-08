@@ -4,24 +4,14 @@ import { Swiper, SwiperSlide } from 'swiper/react';
 import { Autoplay, Pagination } from 'swiper/modules';
 import 'swiper/css';
 import 'swiper/css/pagination';
-
-const testimonials = [
-  {
-    name: 'Miya Monroe',
-    role: 'Buyer',
-    quote:
-      'Arcu laoreet malesuada nunc eget. Fermentum ut dui etiam aliquam habitant elit euismod erat praesent. Trincidunt semper interdum fames cras.',
-    image: '/images/testimonial/testimonial.png',
-  },
-  {
-    name: 'John Carter',
-    role: 'Home Owner',
-    quote: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer posuere erat a ante.',
-    image: '/images/testimonial/testimonial.png',
-  },
-];
+import useApiQuery from '@/hooks/useApiQuery';
+import Image from 'next/image';
+import useDirectusImage from '@/hooks/useDirectusImage';
 
 export default function Testimonial(data: any) {
+  const { data: apiData, isLoading } = useApiQuery<any[]>('/items/testimonial');
+
+  const testimonials = data.data || apiData?.data;
   console.log('Testimonial data:', data);
   return (
     <section className="px-4 py-16" style={{ backgroundColor: '#f8f9fa' }}>
@@ -38,17 +28,17 @@ export default function Testimonial(data: any) {
               <div className="grid items-center grid-cols-1 gap-8 md:grid-cols-2">
                 <div className="text-center md:text-left">
                   <h3 className="text-xl font-semibold text-[#0f0d1d]">
-                    What our clients say
-                    <br />
-                    about us
+                    {t.title}
                   </h3>
                   <p className="mt-4 text-[#0f0d1d]/80 italic text-sm md:text-base">“{t.quote}”</p>
                   <p className="mt-4 font-semibold text-[#0f0d1d]">{t.name}</p>
                   <p className="text-sm text-gray-500">{t.role}</p>
                 </div>
                 <div className="flex justify-center">
-                  <img
-                    src={t.image}
+                  <Image
+                    width={250}
+                    height={250}
+                    src={useDirectusImage(t.image.id)}
                     alt={t.name}
                     className="rounded-md w-[250px] h-[250px] object-cover"
                   />

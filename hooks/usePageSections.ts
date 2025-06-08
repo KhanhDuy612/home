@@ -9,7 +9,7 @@ export function usePageSections() {
 export function useDataForSection(type: string) {
   const map: Record<string, string> = {
     featured: 'rooms',
-    testimonial: 'global',
+    testimonial: 'testimonial',
     contact: 'contact',
   };
   const collection = map[type];
