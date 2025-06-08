@@ -6,8 +6,6 @@ import RoomCardDetail from '@/components/Room/RoomCardDetail';
 
 export default function RoomDetailPage() {
   const params = useParams();
-  console.log('RoomDetailPage params:', params);
-  
 
   const { data: roomData } = useApiQuery<any>(
     `/items/rooms`,
@@ -21,13 +19,11 @@ export default function RoomDetailPage() {
           _eq: params.slug,
         },
       },
+      fields: '*,image.*,future_img.*',
     }
   )
 
   const room = roomData?.data;
-  console.log('Room data1111:', room);
-
-  
   
   if (!room) {
     return <div className="p-4">Room not found</div>;

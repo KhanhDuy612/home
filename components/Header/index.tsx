@@ -114,7 +114,7 @@ export default function Header() {
             <h1 className="text-xl tracking-wider mt-[4px] text-center pr-2 md:pr-0">
               <Link href="/" className="text-[19px] tracking-[8px] font-medium uppercase">
                 <div className="flex items-center justify-center space-x-2">
-                  <div className="flex w-15 h-15">
+                  {/* <div className="flex w-15 h-15">
                     {!!header?.logo?.id && (
                       <Image
                         src={`${DIRECTUS_URL}/${header?.logo?.id}`}
@@ -130,7 +130,7 @@ export default function Header() {
                         unoptimized={true}
                       />
                     )}
-                  </div>
+                  </div> */}
                   <p>{header?.title}</p>
                 </div>
               </Link>

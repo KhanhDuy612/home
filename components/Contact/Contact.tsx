@@ -3,15 +3,13 @@
 import CKEditor from '@/components/Common/CKEditor';
 import ScrollFadeIn from '@/components/ScrollFadeIn/ScrollFadeIn';
 import useApiQuery from '@/hooks/useApiQuery';
-import { FacebookIcon, InstagramIcon, Mail, MapPinIcon } from 'lucide-react';
 import Link from 'next/link';
 import { useTitle } from '@/hooks/useTitle';
 import { useEffect, useMemo } from 'react';
 import FormContact from '@/components/FormContact';
 import Faq from './Faq';
-import OpenGraphImage from '@/components/SEO/OpenGraphImage';
 import { Contact as IContact, LinkTo } from './contact.interface';
-import PageTitle from '../CoreUI/PageTitle';
+import OfficesSection from '../OfficesSection';
 
 export default function Contact() {
   const { data } = useApiQuery<IContact>('/items/contact');
@@ -55,9 +53,10 @@ export default function Contact() {
               </div>
             </ScrollFadeIn>
           </div>{' '}
-          <Faq />
+          {/* <Faq /> */}
         </div>
       </section>
+      <OfficesSection />
     </>
   );
 }
