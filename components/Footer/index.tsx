@@ -1,48 +1,75 @@
+'use client';
+import useApiQuery from '@/hooks/useApiQuery';
+import { log } from 'node:console';
 import { FaFacebookF, FaTwitter, FaInstagram, FaPinterestP } from 'react-icons/fa';
 
-const footerData = [
-  {
-    title: 'Opening hours',
-    items: ['Mon–Fri 08:00AM – 08:00PM', 'Sat–Sun 08:00AM – 08:00PM'],
-  },
-  {
-    title: 'Find Us',
-    items: [
-      '8911 Tanglewood Ave.',
-      'Capitol Heights, MD 20743',
-      '(566) 237-4687',
-      'moinfou@hotmail.com',
-    ],
-  },
-  {
-    title: 'Property',
-    items: ['Apartments', "Villa's", 'Houses', 'Commercial'],
-  },
-  {
-    title: 'Links',
-    items: ['Home', 'Property', 'About', 'Contact'],
-  },
-];
-
 export default function Footer() {
+  const { data: open_hour } = useApiQuery<any>('/items/opening_hours');
+  const { data: find_us } = useApiQuery<any>('/items/find_us');
+  const { data: property } = useApiQuery<any>('/items/property');
+  const { data: links } = useApiQuery<any>('/items/links');
+  const { data: global } = useApiQuery<any>('/items/global');
+  const openingHours = open_hour?.data;
+  const findUs = find_us?.data;
+  const propertyItems = property?.data;
+  const linksItems = links?.data;
+  if (!openingHours || !findUs || !propertyItems || !linksItems) {
+    return <div className="text-center text-white">No footer data available</div>;
+  }
+
   return (
     <footer className="bg-[#0f0d1d] text-white text-sm px-4 md:px-8 py-10">
       <div className="container mx-auto">
         <div className="grid grid-cols-1 gap-8 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5">
-          {footerData.map((section, index) => (
-            <div key={index}>
-              <h3 className="mb-2 font-semibold">{section.title}</h3>
+          {openingHours && (
+            <div>
+              <h3 className="mb-2 font-semibold">{openingHours.title}</h3>
               <ul className="space-y-1">
-                {section.items.map((item, idx) => (
+                {openingHours.content.map((item, idx) => (
+                  <li key={idx}>{item.content}</li>
+                ))}
+              </ul>
+            </div>
+          )}
+          {/* Find Us */}
+          {findUs && (
+            <div>
+              <h3 className="mb-2 font-semibold">{findUs.title}</h3>
+              <ul className="space-y-1">
+                {findUs.content.map((item, idx) => (
+                  <li key={idx}>{item.content_us}</li>
+                ))}
+              </ul>
+            </div>
+          )}
+
+          {/* Property */}
+          {propertyItems && (
+            <div>
+              <h3 className="mb-2 font-semibold">{propertyItems.title}</h3>
+              <ul className="space-y-1">
+                {propertyItems.content.map((item, idx) => (
+                  <li key={idx}>{item.content_property}</li>
+                ))}
+              </ul>
+            </div>
+          )}
+
+          {/* Links */}
+          {linksItems && (
+            <div>
+              <h3 className="mb-2 font-semibold">{linksItems.title}</h3>
+              <ul className="space-y-1">
+                {linksItems.content_link.map((item, idx) => (
                   <li key={idx}>
-                    <a href="#" className="hover:underline">
-                      {item}
+                    <a href={item.link} className="hover:underline">
+                      {item.title_link}
                     </a>
                   </li>
                 ))}
               </ul>
             </div>
-          ))}
+          )}
 
           {/* Newsletter */}
           <div>
@@ -66,7 +93,11 @@ export default function Footer() {
 
         {/* Bottom line */}
         <div className="flex flex-col items-center justify-between gap-4 pt-4 mt-10 text-xs border-t border-white/10 md:flex-row">
-          <p>©Copyright Real Estate 2025.</p>
+          {global?.data?.copyright && (
+            <div className="text-center">
+              <p>{global.data.copyright}</p>
+            </div>
+          )}
           <div className="flex gap-4 text-base text-white">
             <FaFacebookF />
             <FaTwitter />

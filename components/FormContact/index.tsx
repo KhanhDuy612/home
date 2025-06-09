@@ -4,17 +4,18 @@ import useApiPost from '@/hooks/useApiPost';
 import useApiQuery from '@/hooks/useApiQuery';
 import { useState } from 'react';
 import { toast, ToastContainer } from 'react-toastify';
+import ContactInfo from './ContactInfo';
 
-export default function ContactForm() {
+export default function FormContact() {
   const { data } = useApiQuery<any>('/items/form_contact');
   const formContact = data?.data;
+  console.log('Form Contact Data:', formContact);
 
   const [formData, setFormData] = useState({
     firstName: '',
     lastName: '',
     phone: '',
     email: '',
-    contactMethods: [] as string[],
     message: '',
   });
 
@@ -27,7 +28,6 @@ export default function ContactForm() {
         lastName: '',
         phone: '',
         email: '',
-        contactMethods: [],
         message: '',
       });
     },
@@ -43,98 +43,79 @@ export default function ContactForm() {
       last_name: formData.lastName,
       phone: formData.phone,
       email: formData.email,
-      contact_methods: formData.contactMethods,
       message: formData.message,
     });
   };
 
-  const handleCheckboxChange = (value: string, checked: boolean) => {
-    setFormData(prev => ({
-      ...prev,
-      contactMethods: checked
-        ? [...prev.contactMethods, value]
-        : prev.contactMethods.filter(method => method !== value),
-    }));
-  };
-
-  const checkboxOptions = [
-    formContact?.check_box_one,
-    formContact?.check_box_two,
-    formContact?.check_box_three,
-  ].filter(Boolean);
+  if (!formContact) {
+    return <div className="text-center text-white">No contact form data available</div>;
+  }
 
   return (
-    <>
-      <form onSubmit={handleSubmit} className="space-y-4 capitalize">
-        <div className="flex flex-col space-y-3">
-          <label htmlFor="firstName" className="block mb-1 text-2xl font-medium">
-            {formContact?.first_name}
-          </label>
-          <input
-            id="firstName"
-            type="text"
-            value={formData.firstName}
-            placeholder={formContact?.ph_first_name}
-            onChange={e => setFormData({ ...formData, firstName: e.target.value })}
-            className="w-full p-2 border border-gray-300 rounded-lg"
-            required
-          />
+    <div
+      className="flex items-center justify-center min-h-screen"
+      style={{
+        background: 'radial-gradient(circle at 70% 30%, #e6e2e2 0%, #bdb7b7 100%)',
+        borderRadius: '24px',
+        padding: '40px',
+      }}
+    >
+      <div className="flex flex-col w-full max-w-5xl bg-transparent md:flex-row">
+        {/* Left: Form */}
+        <div className="bg-[#131435] text-white rounded-2xl shadow-lg p-8 flex-1 max-w-[400px] flex flex-col justify-center mr-0 md:mr-12">
+          <h2 className="mb-2 text-3xl font-bold">Get in touch</h2>
+          <p className="mb-6 text-base font-light">
+            Leo morbi faucibus mattis pharetra tellus velit ultricies duis rhoncus
+          </p>
+          <form onSubmit={handleSubmit} className="space-y-4">
+            <input
+              id="firstName"
+              type="text"
+              value={formData.firstName}
+              placeholder="Your name"
+              onChange={e => setFormData({ ...formData, firstName: e.target.value })}
+              className="w-full p-3 text-black placeholder-gray-400 border-none rounded-md focus:outline-none focus:ring-2 focus:ring-blue-400"
+              required
+            />
+            <input
+              id="email"
+              type="email"
+              value={formData.email}
+              placeholder="Your mail"
+              onChange={e => setFormData({ ...formData, email: e.target.value })}
+              className="w-full p-3 text-black placeholder-gray-400 border-none rounded-md focus:outline-none focus:ring-2 focus:ring-blue-400"
+              required
+            />
+            <input
+              id="phone"
+              type="tel"
+              value={formData.phone}
+              placeholder="Your phone"
+              onChange={e => setFormData({ ...formData, phone: e.target.value })}
+              className="w-full p-3 text-black placeholder-gray-400 border-none rounded-md focus:outline-none focus:ring-2 focus:ring-blue-400"
+              required
+            />
+            <textarea
+              id="message"
+              value={formData.message}
+              placeholder="Your message"
+              onChange={e => setFormData({ ...formData, message: e.target.value })}
+              className="w-full p-3 text-black placeholder-gray-400 border-none rounded-md focus:outline-none focus:ring-2 focus:ring-blue-400"
+              rows={4}
+              required
+            />
+            <button
+              type="submit"
+              className="w-full py-3 mt-2 font-semibold text-white transition bg-blue-600 rounded-md hover:bg-blue-700"
+            >
+              Send message
+            </button>
+          </form>
         </div>
-
-        <div className="flex flex-col space-y-3">
-          <label htmlFor="phone" className="block mb-1 text-2xl font-medium">
-            {formContact?.phone}
-          </label>
-          <input
-            id="phone"
-            type="tel"
-            value={formData.phone}
-            placeholder={formContact?.ph_phone}
-            onChange={e => setFormData({ ...formData, phone: e.target.value })}
-            className="w-full p-2 border border-gray-300 rounded-lg"
-            required
-          />
-        </div>
-
-        <div className="flex flex-col space-y-3">
-          <label htmlFor="email" className="block mb-1 text-2xl font-medium">
-            {formContact?.email}
-          </label>
-          <input
-            id="email"
-            type="email"
-            value={formData.email}
-            placeholder={formContact?.ph_email}
-            onChange={e => setFormData({ ...formData, email: e.target.value })}
-            className="w-full p-2 border border-gray-300 rounded-lg"
-            required
-          />
-        </div>
-
-        <div>
-          <label htmlFor="message" className="block mb-1 text-2xl font-medium">
-            Message
-          </label>
-          <textarea
-            id="message"
-            value={formData.message}
-            placeholder="Your message"
-            onChange={e => setFormData({ ...formData, message: e.target.value })}
-            className="w-full p-2 border border-gray-300 rounded-lg"
-            rows={4}
-          />
-        </div>
-
-        <div className="flex justify-center">
-          <button
-            type="submit"
-            className="w-[200px] py-2 text-white bg-blue-600 hover:bg-blue-700 rounded-lg uppercase"
-          >
-            {formContact?.submit || 'Submit'}
-          </button>
-        </div>
-      </form>
-      <ToastContainer style={{ marginTop: '100px' }} />
-    </>
+        {/* Right: Contact Info */}
+        <ContactInfo />
+      </div>
+      {/* <ToastContainer style={{ marginTop: '100px' }} /> */}
+    </div>
   );
 }

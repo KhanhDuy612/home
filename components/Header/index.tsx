@@ -14,6 +14,7 @@ import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import DesktopNavigation from './DesktopNavigation';
 export default function Header() {
+  const { data: global } = useApiQuery<any>('/items/global');
   useResetSubHeader();
   const pathname = usePathname();
 
@@ -149,7 +150,24 @@ export default function Header() {
             />
 
             <div className="lg:block hidden text-[19px] tracking-[8px] font-medium uppercase space-x-2">
-              <p>(257) 388-6895</p>
+              {global && global.data && (
+                <Link
+                  className="flex items-center space-x-4"
+                  href={`tel:${global.data.phone}`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  <Image
+                    src="/images/header/phone.png"
+                    alt="Phone Icon"
+                    width={24}
+                    height={24}
+                    className="inline-block"
+                    style={{ verticalAlign: 'middle' }}
+                  />
+                  <p>{global.data.phone}</p>
+                </Link>
+              )}
             </div>
           </div>
         </div>
@@ -231,7 +249,24 @@ export default function Header() {
                 }}
               >
                 <div className=" text-[19px] tracking-[8px] font-medium uppercase space-x-2">
-                  <p>(257) 388-6895</p>
+                  {global && global.data && (
+                    <Link
+                      className="flex items-center space-x-4"
+                      href={`tel:${global.data.phone}`}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                    >
+                      <Image
+                        src="/images/header/phone.png"
+                        alt="Phone Icon"
+                        width={24}
+                        height={24}
+                        className="inline-block"
+                        style={{ verticalAlign: 'middle' }}
+                      />
+                      <p>{global.data.phone}</p>
+                    </Link>
+                  )}
                 </div>
               </li>
             </ul>

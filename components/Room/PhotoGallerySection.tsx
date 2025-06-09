@@ -43,7 +43,7 @@ export default function PhotoGallerySection({ images }: PhotoGallerySectionProps
           >
             &times;
           </button>
-          <div className="w-full max-w-2xl px-4">
+          <div className="w-full max-w-3xl px-4">
             <Swiper spaceBetween={24} slidesPerView={1}>
               {images.map(img => (
                 <SwiperSlide key={img.id}>
@@ -51,10 +51,9 @@ export default function PhotoGallerySection({ images }: PhotoGallerySectionProps
                     <Image
                       src={useDirectusImage(img.directus_files_id)}
                       alt={img.alt || ''}
-                      width={600}
-                      height={400}
+                      width={800}
+                      height={600}
                       className="object-contain w-full rounded-lg bg-slate-400"
-                      style={{ maxHeight: 400 }}
                     />
                   </div>
                 </SwiperSlide>

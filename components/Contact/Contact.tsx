@@ -44,11 +44,8 @@ export default function Contact() {
                   ></iframe>
                 </div>
 
-                <div className="flex flex-col space-y-5 md:space-y-0 md:space-x-8 lg:space-x-12 md:flex-row">
-                  <div className="md:w-1/2">
-                    <div className="mb-6 space-y-6 text-base text-center"></div>
-                    <FormContact />
-                  </div>
+                <div className="">
+                  <FormContact />
                 </div>
               </div>
             </ScrollFadeIn>
