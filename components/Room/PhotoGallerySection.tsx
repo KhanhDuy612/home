@@ -17,18 +17,18 @@ export default function PhotoGallerySection({ images }: PhotoGallerySectionProps
     <>
       {/* Section with blurred image and Show all button */}
       <div
-        className="relative w-72 h-44 rounded-xl overflow-hidden cursor-pointer group"
+        className="relative w-full overflow-hidden cursor-pointer h-44 rounded-xl group"
         onClick={() => setOpen(true)}
       >
         <Image
           src={useDirectusImage(images[0]?.directus_files_id)}
           alt={'Gallery cover'}
           fill
-          className="object-cover group-hover:blur-md transition duration-200"
+          className="object-cover transition duration-200 group-hover:blur-md"
         />
-        <div className="absolute inset-0  flex flex-col items-center justify-center">
-          <div className="text-white flex flex-col items-center">
-            <div className="font-bold text-lg">Show all</div>
+        <div className="absolute inset-0 flex flex-col items-center justify-center">
+          <div className="flex flex-col items-center text-white">
+            <div className="text-lg font-bold">Show all</div>
             <div className="text-sm">{images.length} photos</div>
           </div>
         </div>
@@ -36,9 +36,9 @@ export default function PhotoGallerySection({ images }: PhotoGallerySectionProps
 
       {/* Popup slider */}
       {open && (
-        <div className="fixed z-50 inset-0 bg-black/80 flex items-center justify-center">
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/80">
           <button
-            className="absolute top-6 right-8 text-white text-4xl font-bold z-50"
+            className="absolute z-50 text-4xl font-bold text-white top-6 right-8"
             onClick={() => setOpen(false)}
           >
             &times;
@@ -53,7 +53,7 @@ export default function PhotoGallerySection({ images }: PhotoGallerySectionProps
                       alt={img.alt || ''}
                       width={600}
                       height={400}
-                      className="rounded-lg w-full object-contain bg-slate-400"
+                      className="object-contain w-full rounded-lg bg-slate-400"
                       style={{ maxHeight: 400 }}
                     />
                   </div>

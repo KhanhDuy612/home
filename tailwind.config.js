@@ -40,6 +40,7 @@ module.exports = {
         'neutral-light': '#757575',
         graybeb: '#ebebeb',
         gray333: '#333333',
+        gray747: '#7A7474',
       },
       // fontSize: {
       //   xs: ['10px', '32px'],

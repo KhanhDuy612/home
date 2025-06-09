@@ -40,17 +40,17 @@ export default function FeaturedProperties({ data }: { data?: any }) {
   return (
     <section className="py-10 bg-gray-50">
       <div className="container mx-auto">
-        <div className="grid w-full max-w-5xl grid-cols-1 gap-6 md:grid-cols-3">
+        <div className="grid w-full grid-cols-1 gap-6 md:grid-cols-3">
           {mockRooms.map(room => (
-            <div key={room.id} className="transition bg-white shadow rounded-xl hover:shadow-lg flex flex-col justify-between">
+            <div key={room.id} className="flex flex-col justify-between transition bg-white shadow rounded-xl hover:shadow-lg">
               <Link href={`/rooms/${room.type}/${room.slug}`} className="flex flex-col ">
                 <div className="relative mb-3">
                   <Image
                     src={`${DIRECTUS_URL}/${room.image?.id}`}
                     alt={room.title}
                     width={400}
-                    height={160}
-                    className="object-cover w-full h-40 rounded-tl-lg rounded-tr-lg"
+                    height={200}
+                    className="object-cover w-full rounded-tl-lg rounded-tr-lg h-50"
                     priority
                   />
                   {/* Nếu muốn hiện badge type: */}
@@ -70,7 +70,7 @@ export default function FeaturedProperties({ data }: { data?: any }) {
                 </div>
               </Link>
               <div className="p-4">
-                <div className="flex justify-between flex-col">
+                <div className="flex flex-col justify-between">
 
                   <div>
                     <div className="mb-2 text-xl font-bold">${room.price?.toLocaleString()}</div>
@@ -100,7 +100,7 @@ export default function FeaturedProperties({ data }: { data?: any }) {
                           width={20}
                           height={20}
                         />
-                        <span>{room.totalArea} Total area</span>
+                        <span>{room.total_area} Total area</span>
                       </div>
                       <div className="flex items-center gap-1">
                         <Image
@@ -129,6 +129,7 @@ export default function FeaturedProperties({ data }: { data?: any }) {
         open={open}
         onClose={() => setOpen(false)}
         roomId={selectedRoomId}
+        roomTitle={mockRooms.find(room => room.id === selectedRoomId)?.title || ''}
       />
     </section>
   );

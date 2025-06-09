@@ -8,9 +8,10 @@ interface BookingFormPopupProps {
   open: boolean;
   onClose: () => void;
   roomId: string | null;
+  roomTitle?: string;
 }
 
-export default function BookingFormPopup({ open, onClose, roomId }: BookingFormPopupProps) {
+export default function BookingFormPopup({ open, onClose, roomId, roomTitle }: BookingFormPopupProps) {
   const [form, setForm] = useState({
     name: '',
     email: '',
@@ -35,8 +36,9 @@ export default function BookingFormPopup({ open, onClose, roomId }: BookingFormP
     if (!roomId) return;
     try {
       setLoading(true);
+      console.log('Submitting booking form:', roomId);
 
-      // 1. Tạo booking mới trên Directus
+      // 1. Create a new booking in Directus
       await apiPost(
         `items/bookings`,
         {
@@ -46,10 +48,10 @@ export default function BookingFormPopup({ open, onClose, roomId }: BookingFormP
         }
       );
 
-      // 2. Update trạng thái phòng sang "Đang đặt"
+      // 2. Update the room status to "Booked"
       await apiPatch(
         `items/rooms/${roomId}`,
-        { order: 'Đang đặt' }
+        { order: 'Reserved' }
       );
 
       setLoading(false);
@@ -57,7 +59,7 @@ export default function BookingFormPopup({ open, onClose, roomId }: BookingFormP
       router.push('/booking');
     } catch (error) {
       setLoading(false);
-      alert('Đã có lỗi xảy ra, vui lòng thử lại!');
+      alert('An error occurred, please try again!');
     }
   };
 
@@ -72,12 +74,17 @@ export default function BookingFormPopup({ open, onClose, roomId }: BookingFormP
         >
           &times;
         </button>
-        <h2 className="mb-4 text-2xl font-bold text-center">Đặt phòng</h2>
+        <h2 className="mb-4 text-2xl font-bold text-center">Booking</h2>
+        {roomTitle && (
+          <p className="mb-4 text-lg text-center text-gray-600">
+            Booking for: <strong>{roomTitle}</strong>
+          </p>
+        )}
         <form onSubmit={handleSubmit} className="space-y-4">
           <input
             name="name"
             type="text"
-            placeholder="Họ tên"
+            placeholder="Full Name"
             className="w-full p-2 border rounded"
             value={form.name}
             onChange={handleChange}
@@ -95,7 +102,7 @@ export default function BookingFormPopup({ open, onClose, roomId }: BookingFormP
           <input
             name="phone"
             type="tel"
-            placeholder="Số điện thoại"
+            placeholder="Phone Number"
             className="w-full p-2 border rounded"
             value={form.phone}
             onChange={handleChange}
@@ -127,7 +134,7 @@ export default function BookingFormPopup({ open, onClose, roomId }: BookingFormP
           >
             {[1, 2, 3, 4, 5].map(n => (
               <option key={n} value={n}>
-                {n} khách
+                {n} guests
               </option>
             ))}
           </select>
@@ -136,7 +143,7 @@ export default function BookingFormPopup({ open, onClose, roomId }: BookingFormP
             className="w-full py-2 font-semibold text-white bg-blue-500 rounded hover:bg-blue-600"
             disabled={loading}
           >
-            {loading ? 'Đang gửi...' : 'Gửi đặt phòng'}
+            {loading ? 'Submitting...' : 'Submit Booking'}
           </button>
         </form>
       </div>
