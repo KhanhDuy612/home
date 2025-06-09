@@ -6,25 +6,47 @@ import { useState } from 'react';
 import BookingFormPopup from '../FormBooking';
 import PropertyDetails from './PropertyDetails';
 import Nearby from './Nearby';
+import { useEffect } from 'react';
+import useApiQuery from '@/hooks/useApiQuery';
 
 interface Props {
   room: Room;
 }
 
+const badgeColor = (type: string) => {
+  switch (type) {
+    case 'available':
+      return 'bg-[#8EDA53]';
+    case 'reserved':
+      return 'bg-[#53A1DA]';
+    default:
+      return 'bg-[#B3B3B3]';
+  }
+};
+
 const DIRECTUS_URL =
   process.env.NEXT_PUBLIC_DIRECTUS_ASSETS_URL || 'https://test-homestay-cms.hcm57.vn/assets';
 
 export default function RoomCardDetail({ room }: Props) {
-  const roomData = room[0];
   const [open, setOpen] = useState(false);
   const [selectedRoomId, setSelectedRoomId] = useState<string | null>(null);
-  const badgeColor = (type: string) =>
-    roomData.order === 'Booked' ? 'bg-green-400 text-white' : 'bg-purple-500 text-white';
+
+  // Lấy lại dữ liệu phòng theo id
+  const roomId = room[0]?.id;
+  const { data: apiRoom, refetch } = useApiQuery<any[]>(`/items/rooms`, { filter: { id: { _eq: roomId } } });
+  const roomData = apiRoom?.data?.[0] || room[0];
 
   const handleOrderClick = (roomId: string) => {
     setSelectedRoomId(roomId);
     setOpen(true);
   };
+
+  // Khi đóng popup booking, nếu có reload thì refetch lại phòng
+  const handleCloseBooking = (shouldReload?: boolean) => {
+    setOpen(false);
+    if (shouldReload) refetch();
+  };
+
   if (!roomData) {
     return <div className="p-4 text-red-500">Room not found</div>;
   }
@@ -33,7 +55,7 @@ export default function RoomCardDetail({ room }: Props) {
       <div className="container mx-auto">
         {roomData.order && (
           <span
-            className={` px-4 py-1 rounded-lg text-lg font-semibold ${badgeColor(
+            className={` px-4 py-1 rounded-lg text-lg font-semibold capitalize ${badgeColor(
               roomData.order
             )}`}
           >
@@ -50,7 +72,13 @@ export default function RoomCardDetail({ room }: Props) {
             {/* add order */}
             <button
               onClick={() => handleOrderClick(roomData.id)}
-              className="px-4 py-1 mt-2 text-sm font-semibold text-white bg-green-400 rounded-lg top-3 left-3 "
+              className={`px-4 py-1 mt-2 text-sm font-semibold text-white rounded-lg top-3 left-3 
+                      ${roomData.order === 'available'
+                  ? 'bg-green-400 hover:bg-green-500 cursor-pointer'
+                  : 'bg-gray-400 cursor-not-allowed opacity-60'
+                }
+                    `}
+              disabled={roomData.order !== 'available'}
             >
               Order
             </button>
@@ -103,7 +131,10 @@ export default function RoomCardDetail({ room }: Props) {
       </div>
       <BookingFormPopup
         open={open}
-        onClose={() => setOpen(false)}
+        onClose={(shouldReload) => {
+          setOpen(false);
+          if (shouldReload && refetch) refetch();
+        }}
         roomId={selectedRoomId}
         roomTitle={roomData.title}
       />

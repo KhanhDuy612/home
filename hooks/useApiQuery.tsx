@@ -30,7 +30,6 @@ export default function useApiQuery<T>(
   const queryResult = useQuery<ApiResponse<T>>({
     queryKey: key,
     queryFn: async () => {
-      // Đảm bảo path không trùng // hoặc thiếu /
       const url = path.startsWith('/') ? path : `/${path}`;
       if (process.env.NODE_ENV !== 'production') {
         console.log(`[useApiQuery] GET ${url}?${query}`);
@@ -41,5 +40,8 @@ export default function useApiQuery<T>(
     refetchOnMount: options?.refetchOnMount ?? false,
   });
 
-  return queryResult;
+  return {
+    ...queryResult,
+    refetch: queryResult.refetch,
+  };
 }

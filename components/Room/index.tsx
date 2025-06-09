@@ -7,14 +7,23 @@ import { useState } from 'react';
 import useApiQuery from '@/hooks/useApiQuery';
 import FadeInSection from '../Animation/FadeInSection';
 
-const badgeColor = (type: string) =>
-  type === 'For sale' ? 'bg-green-400 text-white' : 'bg-purple-500 text-white';
+const badgeColor = (type: string) => {
+  switch (type) {
+    case 'available':
+      return 'bg-[#8EDA53]';
+    case 'reserved':
+      return 'bg-[#53A1DA]';
+    default:
+      return 'bg-[#B3B3B3]';
+  }
+};
 
 const DIRECTUS_URL =
   process.env.NEXT_PUBLIC_DIRECTUS_ASSETS_URL || 'https://test-homestay-cms.hcm57.vn/assets';
 
 export default function FeaturedProperties({ data }: { data?: any }) {
-  const { data: apiData, isLoading } = useApiQuery<any[]>('/items/rooms');
+  const { data: apiData, isLoading, refetch } = useApiQuery<any[]>('/items/rooms');
+
 
   // Nếu có data truyền vào thì ưu tiên dùng, không thì lấy data từ API
   const mockRooms = data || apiData?.data;
@@ -42,25 +51,24 @@ export default function FeaturedProperties({ data }: { data?: any }) {
       <div className="container mx-auto">
         <div className="grid w-full grid-cols-1 gap-6 md:grid-cols-3">
           {mockRooms.map(room => (
-            <FadeInSection>
+            <FadeInSection key={room.id}>
               <div
-                key={room.id}
                 className="flex flex-col justify-between h-full transition bg-white shadow rounded-xl hover:shadow-lg"
               >
-                <Link href={`/rooms/${room.type}/${room.slug}`} className="flex flex-col ">
-                  <div className="relative mb-3">
+                <Link href={`/rooms/${room.type}/${room.slug}`} className="flex flex-col  ">
+                  <div className="relative mb-3 overflow-hidden">
                     <Image
                       src={`${DIRECTUS_URL}/${room.image?.id}`}
                       alt={room.title}
                       width={400}
                       height={200}
-                      className="object-cover w-full rounded-tl-lg rounded-tr-lg h-50"
+                      className="object-cover w-full rounded-tl-lg rounded-tr-lg h-50 hover:scale-105 transition-transform duration-300 ease-in-out"
                       priority
                     />
                     {/* Nếu muốn hiện badge type: */}
                     {room.order && (
                       <span
-                        className={`absolute top-3 left-3 px-4 py-1 rounded-lg text-sm font-semibold ${badgeColor(
+                        className={`absolute top-3 left-3 px-4 py-1 capitalize rounded-lg text-sm font-semibold ${badgeColor(
                           room.order
                         )}`}
                       >
@@ -69,7 +77,7 @@ export default function FeaturedProperties({ data }: { data?: any }) {
                     )}
                   </div>
                   <div className="p-4">
-                    <h2 className="text-lg font-semibold">{room.title}</h2>
+                    <h2 className="text-lg font-semibold uppercase">{room.title}</h2>
                     <p className="mb-2 text-sm text-gray-400">{room.address}</p>
                   </div>
                 </Link>
@@ -131,7 +139,13 @@ export default function FeaturedProperties({ data }: { data?: any }) {
                   </div>
                   <button
                     onClick={() => handleOrderClick(room.id)}
-                    className="px-4 py-1 mt-2 text-sm font-semibold text-white bg-green-400 rounded-lg top-3 left-3 "
+                    className={`px-4 py-1 mt-2 text-sm font-semibold text-white rounded-lg top-3 left-3 
+                      ${room.order === 'available'
+                        ? 'bg-green-400 hover:bg-green-500 cursor-pointer'
+                        : 'bg-gray-400 cursor-not-allowed opacity-60'
+                      }
+                    `}
+                    disabled={room.order !== 'available'}
                   >
                     Order
                   </button>
@@ -143,7 +157,10 @@ export default function FeaturedProperties({ data }: { data?: any }) {
       </div>
       <BookingFormPopup
         open={open}
-        onClose={() => setOpen(false)}
+        onClose={(shouldReload) => {
+          setOpen(false);
+          if (shouldReload && refetch) refetch();
+        }}
         roomId={selectedRoomId}
         roomTitle={mockRooms.find(room => room.id === selectedRoomId)?.title || ''}
       />

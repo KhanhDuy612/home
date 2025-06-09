@@ -6,7 +6,7 @@ import { apiPatch, apiPost } from '@/hooks/apiPost';
 
 interface BookingFormPopupProps {
   open: boolean;
-  onClose: () => void;
+  onClose: (shouldReload?: boolean) => void;
   roomId: string | null;
   roomTitle?: string;
 }
@@ -33,6 +33,8 @@ export default function BookingFormPopup({ open, onClose, roomId, roomTitle }: B
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+// window.location.reload();
+// router.refresh();
     if (!roomId) return;
     try {
       setLoading(true);
@@ -47,14 +49,15 @@ export default function BookingFormPopup({ open, onClose, roomId, roomTitle }: B
         }
       );
 
-      // 2. Update the room status to "Booked"
+      // 2. Update the room status to "reserved"
       await apiPatch(
         `items/rooms/${roomId}`,
-        { order: 'Reserved' }
+        { order: 'reserved' }
       );
 
       setLoading(false);
-      onClose();
+      if (onClose) onClose(true);
+      router.refresh();
       router.push('/booking');
     } catch (error) {
       setLoading(false);
@@ -69,7 +72,7 @@ export default function BookingFormPopup({ open, onClose, roomId, roomTitle }: B
       <div className="relative w-full max-w-md p-8 bg-white rounded-lg shadow-lg">
         <button
           className="absolute text-2xl text-gray-500 top-2 right-2 hover:text-red-500"
-          onClick={onClose}
+          onClick={() => onClose(false)}
         >
           &times;
         </button>

@@ -12,8 +12,7 @@ export default function FormContact({ home = false }: { home?: boolean }) {
   console.log('Form Contact Data:', formContact);
 
   const [formData, setFormData] = useState({
-    firstName: '',
-    lastName: '',
+    fullName: '',
     phone: '',
     email: '',
     message: '',
@@ -24,8 +23,7 @@ export default function FormContact({ home = false }: { home?: boolean }) {
     onSuccess: () => {
       toast.success('Form submitted successfully!');
       setFormData({
-        firstName: '',
-        lastName: '',
+        fullName: '',
         phone: '',
         email: '',
         message: '',
@@ -39,8 +37,7 @@ export default function FormContact({ home = false }: { home?: boolean }) {
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     postContact.mutate({
-      first_name: formData.firstName,
-      last_name: formData.lastName,
+      full_name: formData.fullName,
       phone: formData.phone,
       email: formData.email,
       message: formData.message,
@@ -70,11 +67,11 @@ export default function FormContact({ home = false }: { home?: boolean }) {
           </p>
           <form onSubmit={handleSubmit} className="space-y-4">
             <input
-              id="firstName"
+              id="fullName"
               type="text"
-              value={formData.firstName}
+              value={formData.fullName}
               placeholder="Your name"
-              onChange={e => setFormData({ ...formData, firstName: e.target.value })}
+              onChange={e => setFormData({ ...formData, fullName: e.target.value })}
               className="w-full p-3 text-black placeholder-gray-400 border-none rounded-md focus:outline-none focus:ring-2 focus:ring-blue-400"
               required
             />

@@ -20,7 +20,7 @@ export default function Footer() {
   return (
     <footer className="bg-[#0f0d1d] text-white text-sm px-4 md:px-8 py-10">
       <div className="container mx-auto">
-        <div className="grid grid-cols-1 gap-8 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5">
+        <div className="grid grid-cols-1 gap-8 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-4">
           {openingHours && (
             <div>
               <h3 className="mb-2 font-semibold">{openingHours.title}</h3>
@@ -72,7 +72,7 @@ export default function Footer() {
           )}
 
           {/* Newsletter */}
-          <div>
+          {/* <div>
             <h3 className="mb-2 font-semibold">Newsletter</h3>
             <p className="mb-2">Subscribe to our newsletter</p>
             <form className="flex items-center space-x-2">
@@ -88,7 +88,7 @@ export default function Footer() {
                 Subscribe
               </button>
             </form>
-          </div>
+          </div> */}
         </div>
 
         {/* Bottom line */}
