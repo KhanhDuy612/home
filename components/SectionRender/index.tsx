@@ -4,6 +4,8 @@ import { useDataForSection } from '@/hooks/usePageSections';
 import FeaturedProperties from '../Room';
 import Testimonial from '../Testimonial';
 import ContactForm from '../ContactForm';
+import ContactInfo from '../FormContact/ContactInfo';
+import FormContact from '../FormContact';
 
 export default function SectionRenderer({ section }: { section: any }) {
   switch (section.section_type) {
@@ -18,7 +20,7 @@ export default function SectionRenderer({ section }: { section: any }) {
       return <Testimonial key={section.id} data={data.data} />;
     }
     case 'contact':
-      return <ContactForm key={section.id} />;
+      return <FormContact home={true} />
     default:
       return null;
   }

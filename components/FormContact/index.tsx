@@ -6,7 +6,7 @@ import { useState } from 'react';
 import { toast, ToastContainer } from 'react-toastify';
 import ContactInfo from './ContactInfo';
 
-export default function FormContact() {
+export default function FormContact({ home = false }: { home?: boolean }) {
   const { data } = useApiQuery<any>('/items/form_contact');
   const formContact = data?.data;
   console.log('Form Contact Data:', formContact);
@@ -53,16 +53,17 @@ export default function FormContact() {
 
   return (
     <div
-      className="flex items-center justify-center min-h-screen"
+      className="flex items-center justify-center "
       style={{
         background: 'radial-gradient(circle at 70% 30%, #e6e2e2 0%, #bdb7b7 100%)',
         borderRadius: '24px',
         padding: '40px',
       }}
     >
-      <div className="flex flex-col w-full max-w-5xl bg-transparent md:flex-row">
+      <div className='container mx-auto'>
+      <div className="flex flex-col w-full bg-transparent md:flex-row">
         {/* Left: Form */}
-        <div className="bg-[#131435] text-white rounded-2xl shadow-lg p-8 flex-1 max-w-[400px] flex flex-col justify-center mr-0 md:mr-12">
+        <div className="bg-[#131435] text-white rounded-2xl shadow-lg p-8 flex-1 flex flex-col justify-center mr-0 md:mr-12">
           <h2 className="mb-2 text-3xl font-bold">Get in touch</h2>
           <p className="mb-6 text-base font-light">
             Leo morbi faucibus mattis pharetra tellus velit ultricies duis rhoncus
@@ -113,7 +114,8 @@ export default function FormContact() {
           </form>
         </div>
         {/* Right: Contact Info */}
-        <ContactInfo />
+        <ContactInfo home={home} />
+      </div>
       </div>
       {/* <ToastContainer style={{ marginTop: '100px' }} /> */}
     </div>

@@ -18,7 +18,7 @@ export default function ClientLayout({ children }: { children: React.ReactNode }
         <BookingPopupProvider>
           <Header />
           <main className="flex-grow min-h-[calc(100vh_-_280px)]">
-            <div className="px-4 md:px-6">{children}</div>
+            {children}
           </main>
           <Footer />
           <ToastContainer style={{ marginTop: '100px' }} />

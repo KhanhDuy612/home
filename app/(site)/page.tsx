@@ -9,10 +9,8 @@ import type { Metadata } from 'next';
 
 export default function Home() {
   return (
-    <main>
-      <div className="-mx-4 md:-mx-6">
+    <div>
         <HomePage />
-      </div>
-    </main>
+    </div>
   );
 }

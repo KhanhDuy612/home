@@ -40,19 +40,19 @@ const offices: Office[] = [
 
 export default function OfficesSection() {
   return (
-    <section className="py-10 px-4 bg-white">
-      <div className="max-w-5xl mx-auto">
-        <h2 className="text-2xl md:text-3xl font-bold text-center mb-2">Our Offices</h2>
-        <p className="text-center text-gray-500 mb-8">
+    <section className="px-4 py-10 bg-white">
+      <div className="container mx-auto">
+        <h2 className="mb-2 text-2xl font-bold text-center md:text-3xl">Our Offices</h2>
+        <p className="mb-8 text-center text-gray-500">
           Premium interdum risus risus facilisis cras pellentesque paum suspendisse
         </p>
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+        <div className="grid grid-cols-1 gap-6 md:grid-cols-3">
           {offices.map((office) => (
             <div
               key={office.id}
-              className="bg-white rounded-xl shadow-sm overflow-hidden"
+              className="overflow-hidden bg-white shadow-sm rounded-xl"
             >
-              <div className="relative h-40 w-full">
+              <div className="relative w-full h-40">
                 <Image
                   src={office.image}
                   alt={office.name}
@@ -63,7 +63,7 @@ export default function OfficesSection() {
               </div>
               <div className="p-4">
                 <div className="font-bold">{office.name}</div>
-                <div className="text-sm text-gray-600 mb-1">{office.address}</div>
+                <div className="mb-1 text-sm text-gray-600">{office.address}</div>
                 <div className="text-sm">Phone: {office.phone}</div>
                 <div className="text-sm">Email: {office.email}</div>
               </div>
