@@ -2,6 +2,10 @@
 import Image from 'next/image';
 import { Room } from './Room';
 import PhotoGallerySection from './PhotoGallerySection';
+import { useState } from 'react';
+import BookingFormPopup from '../FormBooking';
+import PropertyDetails from './PropertyDetails';
+import Nearby from './Nearby';
 
 interface Props {
   room: Room;
@@ -12,20 +16,44 @@ const DIRECTUS_URL =
 
 export default function RoomCardDetail({ room }: Props) {
   const roomData = room[0];
+  const [open, setOpen] = useState(false);
+  const [selectedRoomId, setSelectedRoomId] = useState<string | null>(null);
+  const badgeColor = (type: string) =>
+    roomData.order === 'Booked' ? 'bg-green-400 text-white' : 'bg-purple-500 text-white';
 
+  const handleOrderClick = (roomId: string) => {
+    setSelectedRoomId(roomId);
+    setOpen(true);
+  };
   if (!roomData) {
     return <div className="p-4 text-red-500">Room not found</div>;
   }
   return (
     <div className="mx-auto bg-white">
       <div className="container mx-auto">
+        {roomData.order && (
+          <span
+            className={` px-4 py-1 rounded-lg text-lg font-semibold ${badgeColor(
+              roomData.order
+            )}`}
+          >
+            {roomData.order}
+          </span>
+        )}
         <div className="flex justify-between mb-4">
           <div>
             <h1 className="text-2xl font-bold">{roomData.title}</h1>
             <p className="text-gray-600">{roomData.address}</p>
           </div>
           <div>
-            <p className="font-semibold">{roomData.price}</p>
+            <p className="font-semibold">${roomData.price}</p>
+            {/* add order */}
+            <button
+              onClick={() => handleOrderClick(roomData.id)}
+              className="px-4 py-1 mt-2 text-sm font-semibold text-white bg-green-400 rounded-lg top-3 left-3 "
+            >
+              Order
+            </button>
           </div>
         </div>
         <div className="flex flex-col-reverse md:flex-row md:space-x-4">
@@ -53,210 +81,9 @@ export default function RoomCardDetail({ room }: Props) {
           </div> */}
             <p className="my-4 text-gray-700">{roomData.description}</p>
 
-            <h2 className="mt-6 mb-2 text-lg font-semibold">Property Details</h2>
-            <ul className="grid grid-cols-1 text-sm gap-y-2 gap-x-4 text-gray747 md:grid-cols-2">
-              <li className="flex justify-between pb-2 border-b">
-                <p>
-                  <Image
-                    src="/images/rooms/area.png"
-                    alt="Icon"
-                    width={24}
-                    height={24}
-                    className="inline-block mr-2"
-                  />
-                  Total area:
-                </p>
-                <p className="text-black">{roomData.total_area} sq.ft</p>
-              </li>
-              <li className="flex justify-between pb-2 border-b">
-                <p>
-                  <Image
-                    src="/images/rooms/double-bed.png"
-                    alt="Icon"
-                    width={24}
-                    height={24}
-                    className="inline-block mr-2"
-                  />
-                  Bedrooms:
-                </p>
-                <p className="text-black">{roomData.bedrooms} </p>
-              </li>
-              <li className="flex justify-between pb-2 border-b">
-                <p>
-                  <Image
-                    src="/images/rooms/bath-tub.png"
-                    alt="Icon"
-                    width={24}
-                    height={24}
-                    className="inline-block mr-2"
-                  />
-                  Bathrooms:
-                </p>
-                <p className="text-black">{roomData.bathrooms} </p>
-              </li>
-              <li className="flex justify-between pb-2 border-b">
-                <p>
-                  <Image
-                    src="/images/rooms/stairs.png"
-                    alt="Icon"
-                    width={24}
-                    height={24}
-                    className="inline-block mr-2"
-                  />
-                  Floor:
-                </p>
-                <p className="text-black">{roomData.floor} </p>
-              </li>
-              {/* <li className='flex justify-between pb-2 border-b'>
-            <p>
-              <Image
-                src="/images/rooms/area.png"
-                alt="Icon"
-                width={24}
-                height={24}
-                className="inline-block mr-2"
-              />
-              Year:
-            </p>
-            <p className='text-black'>{roomData.constructionYear} </p>
-          </li> */}
-              <li className="flex justify-between pb-2 border-b">
-                <p>
-                  <Image
-                    src="/images/rooms/elevator.png"
-                    alt="Icon"
-                    width={24}
-                    height={24}
-                    className="inline-block mr-2"
-                  />
-                  Elevator:
-                </p>
-                <p className="text-black">{roomData.elevator} </p>
-              </li>
-              <li className="flex justify-between pb-2 border-b">
-                <p>
-                  <Image
-                    src="/images/rooms/parking-sign.png"
-                    alt="Icon"
-                    width={24}
-                    height={24}
-                    className="inline-block mr-2"
-                  />
-                  Parking:
-                </p>
-                <p className="text-black">{roomData.parking ? 'Yes' : 'No'} </p>
-              </li>
-              <li className="flex justify-between pb-2 border-b">
-                <p>
-                  <Image
-                    src="/images/rooms/wifi.png"
-                    alt="Icon"
-                    width={24}
-                    height={24}
-                    className="inline-block mr-2"
-                  />
-                  Wi-Fi:
-                </p>
-                <p className="text-black">{roomData.wifi ? 'Yes' : 'No'} </p>
-              </li>
-              <li className="flex justify-between pb-2 border-b">
-                <p>
-                  <Image
-                    src="/images/rooms/tv.png"
-                    alt="Icon"
-                    width={24}
-                    height={24}
-                    className="inline-block mr-2"
-                  />
-                  Cable TV:
-                </p>
-                <p className="text-black">{roomData.cableTV ? 'Yes' : 'No'} </p>
-              </li>
-            </ul>
+            <PropertyDetails roomData={roomData} />
 
-            <h2 className="mt-6 mb-2 text-lg font-semibold">What's Nearby</h2>
-            <div className="space-y-4">
-              <div className="space-y-2">
-                <h3 className="pb-2 font-medium border-b">
-                  <Image
-                    src="/images/rooms/edu.png"
-                    alt="Nearby icon"
-                    width={24}
-                    height={24}
-                    className="inline-block mr-2"
-                  />
-                  Education
-                </h3>
-                <ul className="text-sm text-gray-700">
-                  {roomData.title_education.map((group, index) => (
-                    <li key={index} className="flex justify-between mb-2">
-                      <p>{group.education}</p>
-                      <p>{group.mile} mile</p>
-                    </li>
-                  ))}
-                </ul>
-              </div>
-              <div className="space-y-2">
-                <h3 className="pb-2 font-medium border-b">
-                  <Image
-                    src="/images/rooms/health.png"
-                    alt="Nearby icon"
-                    width={24}
-                    height={24}
-                    className="inline-block mr-2"
-                  />
-                  Health & Medicine
-                </h3>
-                <ul className="text-sm text-gray-700">
-                  {roomData.title_medicine.map((group, index) => (
-                    <li key={index} className="flex justify-between mb-2">
-                      <p>{group.medicine}</p>
-                      <p>{group.mile} mile</p>
-                    </li>
-                  ))}
-                </ul>
-              </div>
-              <div className="space-y-2">
-                <h3 className="pb-2 font-medium border-b">
-                  <Image
-                    src="/images/rooms/food.png"
-                    alt="Nearby icon"
-                    width={24}
-                    height={24}
-                    className="inline-block mr-2"
-                  />
-                  Food
-                </h3>
-                <ul className="text-sm text-gray-700">
-                  {roomData.title_food.map((group, index) => (
-                    <li key={index} className="flex justify-between mb-2">
-                      <p>{group.food}</p>
-                      <p>{group.mile} mile</p>
-                    </li>
-                  ))}
-                </ul>
-              </div>
-              <div className="space-y-2">
-                <h3 className="pb-2 font-medium border-b">
-                  <Image
-                    src="/images/rooms/bank.png"
-                    alt="Nearby icon"
-                    width={24}
-                    height={24}
-                    className="inline-block mr-2"
-                  />
-                  Culture
-                </h3>
-                <ul className="text-sm text-gray-700">
-                  {roomData.title_culture.map((group, index) => (
-                    <li key={index} className="flex justify-between mb-2">
-                      <p>{group.culture}</p>
-                      <p>{group.mile} mile</p>
-                    </li>
-                  ))}
-                </ul>
-              </div>
-            </div>
+            <Nearby roomData={roomData} />
           </div>
           <div className="md:w-1/3">
             <div className="flex flex-col justify-between col-span-1 space-y-4">
@@ -274,6 +101,12 @@ export default function RoomCardDetail({ room }: Props) {
           </div>
         </div>
       </div>
+      <BookingFormPopup
+        open={open}
+        onClose={() => setOpen(false)}
+        roomId={selectedRoomId}
+        roomTitle={roomData.title}
+      />
     </div>
   );
 }
