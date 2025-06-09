@@ -18,7 +18,7 @@ const offices: Office[] = [
     address: '9514 Smoky Hollow St, Sulphur, LA 70683',
     phone: '(736) 297-0859',
     email: 'rsmartin@gmail.com',
-    image: '/office-1.jpg',
+    image: '/images/rooms/rooms.webp',
   },
   {
     id: '2',
@@ -26,7 +26,7 @@ const offices: Office[] = [
     address: '19 North Road Piscataway, NJ 08854',
     phone: '(736) 297-0859',
     email: 'rsmartin@gmail.com',
-    image: '/office-2.jpg',
+    image: '/images/rooms/rooms.webp',
   },
   {
     id: '3',
@@ -34,7 +34,7 @@ const offices: Office[] = [
     address: '8480 Rockville Ave, Greenville, NC 27834',
     phone: '(736) 297-0859',
     email: 'rsmartin@gmail.com',
-    image: '/office-3.jpg',
+    image: '/images/rooms/rooms.webp',
   },
 ];
 
@@ -57,7 +57,7 @@ export default function OfficesSection() {
                   src={office.image}
                   alt={office.name}
                   fill
-                  className="object-cover w-full h-full blur-sm"
+                  className="object-cover w-full h-full"
                   sizes="(max-width: 768px) 100vw, 33vw"
                 />
               </div>

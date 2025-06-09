@@ -31,7 +31,7 @@ export default function Contact() {
           <div className="space-y-15">
             <ScrollFadeIn>
               <div className="space-y-15">
-                <h1 className="text-5xl font-medium uppercase tracking-[3.19px]">
+                <h1 className="text-3xl font-medium uppercase tracking-[3.19px]">
                   {contact?.title || 'Contact Us'}
                 </h1>
                 <div className="">
@@ -50,7 +50,7 @@ export default function Contact() {
         </div>
       </section>
       <FormContact />
-      <OfficesSection />
+      {/* <OfficesSection /> */}
     </>
   );
 }
