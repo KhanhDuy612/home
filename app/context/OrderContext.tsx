@@ -15,7 +15,6 @@ export const OrderProvider = ({ children }: OrderProviderProps) => {
 
   const placeOrder = (roomId: string) => {
     setOrders((prevOrders) => [...prevOrders, roomId]);
-    console.log(`Order placed for room ID: ${roomId}`);
   };
 
   return (

@@ -32,7 +32,6 @@ export function BookingPopupProvider({ children }: { children: ReactNode }) {
 
 export function useBookingPopup() {
   const ctx = useContext(BookingPopupContext);
-  console.log("useBookingPopup called", ctx);
   
   if (!ctx) throw new Error("useBookingPopup must be used within BookingPopupProvider");
   return ctx;

@@ -36,7 +36,6 @@ export default function BookingFormPopup({ open, onClose, roomId, roomTitle }: B
     if (!roomId) return;
     try {
       setLoading(true);
-      console.log('Submitting booking form:', roomId);
 
       // 1. Create a new booking in Directus
       await apiPost(

@@ -12,7 +12,6 @@ export default function Testimonial(data: any) {
   const { data: apiData, isLoading } = useApiQuery<any[]>('/items/testimonial');
 
   const testimonials = data.data || apiData?.data;
-  console.log('Testimonial data:', data);
   return (
     <section className="px-4 py-16" style={{ backgroundColor: '#f8f9fa' }}>
       <div className="container mx-auto">
@@ -26,7 +25,7 @@ export default function Testimonial(data: any) {
           {testimonials.map((t, index) => (
             <SwiperSlide key={index}>
               <div className="grid items-center grid-cols-1 gap-8 md:grid-cols-2">
-                <div className="text-center md:text-left">
+                <div className="text-center">
                   <h3 className="text-xl font-semibold text-[#0f0d1d]">
                     {t.title}
                   </h3>

@@ -31,7 +31,6 @@ export const OrderProvider = ({ children }: OrderProviderProps) => {
       total: 100, // Example total
     };
     setOrders((prevOrders) => [...prevOrders, newOrder]);
-    console.log(`Order placed for room ID: ${roomId}`);
   };
 
   return (
