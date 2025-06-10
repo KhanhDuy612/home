@@ -3,8 +3,6 @@
 import { useDataForSection } from '@/hooks/usePageSections';
 import FeaturedProperties from '../Room';
 import Testimonial from '../Testimonial';
-import ContactForm from '../ContactForm';
-import ContactInfo from '../FormContact/ContactInfo';
 import FormContact from '../FormContact';
 
 export default function SectionRenderer({ section }: { section: any }) {

@@ -2,7 +2,6 @@
 
 import Link from 'next/link';
 import { useState } from 'react';
-import { ShoppingCart } from 'lucide-react';
 
 interface DesktopNavigationProps {
   headerData: any[];
@@ -22,8 +21,6 @@ const DesktopNavigation: React.FC<DesktopNavigationProps> = ({
   isActive,
   setShowMenuPrice,
   setPositionPriceMenu,
-  whiteHeader,
-  totalQuantity,
 }) => {
   const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
 

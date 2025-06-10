@@ -1,6 +1,6 @@
 'use client';
 
-import { use, useState } from 'react';
+import { useState } from 'react';
 import Image from 'next/image';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import 'swiper/css';
@@ -17,7 +17,7 @@ export default function PhotoGallerySection({ images }: PhotoGallerySectionProps
     <>
       {/* Section with blurred image and Show all button */}
       <div
-        className="relative w-full overflow-hidden cursor-pointer h-44 rounded-xl group"
+        className="relative w-full h-48 overflow-hidden cursor-pointer rounded-xl group"
         onClick={() => setOpen(true)}
       >
         <Image
@@ -53,7 +53,7 @@ export default function PhotoGallerySection({ images }: PhotoGallerySectionProps
                       alt={img.alt || ''}
                       width={800}
                       height={600}
-                      className="object-contain w-full rounded-lg bg-slate-400"
+                      className="object-contain w-full h-[600px] rounded-lg bg-slate-400"
                     />
                   </div>
                 </SwiperSlide>

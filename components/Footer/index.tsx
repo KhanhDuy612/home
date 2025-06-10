@@ -1,6 +1,5 @@
 'use client';
 import useApiQuery from '@/hooks/useApiQuery';
-import { log } from 'node:console';
 import { FaFacebookF, FaTwitter, FaInstagram, FaPinterestP } from 'react-icons/fa';
 
 export default function Footer() {

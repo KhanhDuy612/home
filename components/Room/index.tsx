@@ -1,11 +1,11 @@
 'use client';
-import { useOrderContext } from '@/app/context/OrderContext';
 import Image from 'next/image';
 import Link from 'next/link';
 import BookingFormPopup from '../FormBooking';
 import { useState } from 'react';
 import useApiQuery from '@/hooks/useApiQuery';
 import FadeInSection from '../Animation/FadeInSection';
+import { Room } from './Room';
 
 const badgeColor = (type: string) => {
   switch (type) {
@@ -21,8 +21,8 @@ const badgeColor = (type: string) => {
 const DIRECTUS_URL =
   process.env.NEXT_PUBLIC_DIRECTUS_ASSETS_URL || 'https://test-homestay-cms.hcm57.vn/assets';
 
-export default function FeaturedProperties({ data }: { data?: any }) {
-  const { data: apiData, isLoading, refetch } = useApiQuery<any[]>('/items/rooms');
+export default function FeaturedProperties({ data }: { data?: Room[] }) {
+  const { data: apiData, refetch } = useApiQuery<Room[]>('/items/rooms');
 
 
   // Nếu có data truyền vào thì ưu tiên dùng, không thì lấy data từ API
@@ -55,14 +55,14 @@ export default function FeaturedProperties({ data }: { data?: any }) {
               <div
                 className="flex flex-col justify-between h-full transition bg-white shadow rounded-xl hover:shadow-lg"
               >
-                <Link href={`/rooms/${room.type}/${room.slug}`} className="flex flex-col  ">
+                <Link href={`/rooms/${room.type}/${room.slug}`} className="flex flex-col ">
                   <div className="relative mb-3 overflow-hidden">
                     <Image
                       src={`${DIRECTUS_URL}/${room.image?.id}`}
                       alt={room.title}
                       width={400}
                       height={200}
-                      className="object-cover w-full rounded-tl-lg rounded-tr-lg h-50 hover:scale-105 transition-transform duration-300 ease-in-out"
+                      className="object-cover w-full transition-transform duration-300 ease-in-out rounded-tl-lg rounded-tr-lg h-50 hover:scale-105"
                       priority
                     />
                     {/* Nếu muốn hiện badge type: */}

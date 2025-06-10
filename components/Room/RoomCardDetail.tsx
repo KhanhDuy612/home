@@ -62,7 +62,7 @@ export default function RoomCardDetail({ room }: Props) {
             {roomData.order}
           </span>
         )}
-        <div className="flex justify-between mb-4">
+        <div className="flex justify-between my-4">
           <div>
             <h1 className="text-2xl font-bold">{roomData.title}</h1>
             <p className="text-gray-600">{roomData.address}</p>
@@ -86,7 +86,7 @@ export default function RoomCardDetail({ room }: Props) {
         </div>
         <div className="flex flex-col-reverse md:flex-row md:space-x-4">
           <div className="mt-4 md:mt-0 md:w-2/3">
-            <div className="flex flex-col col-span-2">
+            <div className="flex-col hidden col-span-2  md:flex">
               <Image
                 width={800}
                 height={400}
@@ -118,7 +118,7 @@ export default function RoomCardDetail({ room }: Props) {
               <PhotoGallerySection images={roomData.future_img} />
               <div className="">
                 <iframe
-                  className="w-full rounded"
+                  className="w-full h-48 rounded"
                   src="https://www.google.com/maps/embed?pb=!1m14!1m12!1m3!1d15594.198370054473!2d109.19989735!3d12.278730049999998!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!5e0!3m2!1svi!2s!4v1749396808763!5m2!1svi!2s"
                   allowFullScreen
                   loading="lazy"

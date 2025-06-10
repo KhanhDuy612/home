@@ -71,7 +71,7 @@ export default function BookingFormPopup({ open, onClose, roomId, roomTitle }: B
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50">
       <div className="relative w-full max-w-md p-8 bg-white rounded-lg shadow-lg">
         <button
-          className="absolute text-2xl text-gray-500 top-2 right-2 hover:text-red-500"
+          className="absolute text-3xl text-gray-500 top-2 right-4 hover:text-red-500"
           onClick={() => onClose(false)}
         >
           &times;

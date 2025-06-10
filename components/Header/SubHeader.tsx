@@ -3,7 +3,8 @@
 import './index.css';
 import { ISubHeader } from './header.interface';
 import React from 'react';
-import useBreakpoint, { Breakpoint } from '@/hooks/useBreakPoint';
+import useBreakpoint from '@/hooks/useBreakPoint';
+import Link from 'next/link';
 
 type SubHeaderProps = {
   subHeader: ISubHeader | null;
@@ -22,9 +23,9 @@ export default function SubHeader({ subHeader, visible }: SubHeaderProps) {
           {/* Main header content */}
           <div className="flex justify-between items-center text-[#010101] py-[28px]">
             <h1 className="text-xl tracking-wider mt-[4px] text-center pr-2 md:pr-0">
-              <a href="/" className="text-[19px] tracking-[8px] font-medium uppercase">
+              <Link href="/" className="text-[19px] tracking-[8px] font-medium uppercase">
                 {subHeader.name}
-              </a>
+              </Link>
             </h1>
 
             {/* Navigation - Desktop */}
